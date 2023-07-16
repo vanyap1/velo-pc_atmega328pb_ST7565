@@ -10,5 +10,5 @@ This proect potentional requirements -
 	Some cables.
 	Magnet and Herkon (I'm not sure it'll be a good idea).Perhaps It'll be a simple copper coil.
 	
-![Pin connections](https://github.com/vanyap1/Can-Bus-Hacking-tool/blob/main/pic.png)
+![Pin connections](https://github.com/vanyap1/velo-pc_atmega328pb_ST7565/blob/main/pic.png)
 
