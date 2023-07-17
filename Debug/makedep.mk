@@ -242,6 +242,8 @@ lib\display_fn.c
 
 lib\gpio_driver.c
 
+lib\required_function.c
+
 lib\rtc.c
 
 lib\twi_hal.c

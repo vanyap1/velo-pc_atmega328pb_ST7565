@@ -159,6 +159,7 @@ C_SRCS +=  \
 ../lib/adc_hal.c \
 ../lib/display_fn.c \
 ../lib/gpio_driver.c \
+../lib/required_function.c \
 ../lib/rtc.c \
 ../lib/twi_hal.c \
 ../lib/uart_hal.c \
@@ -292,6 +293,7 @@ csrc/u8x8_u8toa.o \
 lib/adc_hal.o \
 lib/display_fn.o \
 lib/gpio_driver.o \
+lib/required_function.o \
 lib/rtc.o \
 lib/twi_hal.o \
 lib/uart_hal.o \
@@ -418,6 +420,7 @@ csrc/u8x8_u8toa.o \
 lib/adc_hal.o \
 lib/display_fn.o \
 lib/gpio_driver.o \
+lib/required_function.o \
 lib/rtc.o \
 lib/twi_hal.o \
 lib/uart_hal.o \
@@ -544,6 +547,7 @@ csrc/u8x8_u8toa.d \
 lib/adc_hal.d \
 lib/display_fn.d \
 lib/gpio_driver.d \
+lib/required_function.d \
 lib/rtc.d \
 lib/twi_hal.d \
 lib/uart_hal.d \
@@ -670,6 +674,7 @@ csrc/u8x8_u8toa.d \
 lib/adc_hal.d \
 lib/display_fn.d \
 lib/gpio_driver.d \
+lib/required_function.d \
 lib/rtc.d \
 lib/twi_hal.d \
 lib/uart_hal.d \
@@ -1529,6 +1534,13 @@ lib/gpio_driver.o: ../lib/gpio_driver.c
 	@echo Finished building: $<
 	
 
+lib/required_function.o: ../lib/required_function.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=16000000  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I"../csrc" -I".."  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328pb -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega328pb" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 lib/rtc.o: ../lib/rtc.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
@@ -1583,7 +1595,7 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-s -Wl,-static -Wl,-Map="velo-pc_atmega328pb_ST7565.map" -Wl,-u,vfprintf -Wl,--start-group -Wl,-lm -Wl,-lprintf_flt  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega328pb -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega328pb"  
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="velo-pc_atmega328pb_ST7565.map" -Wl,-u,vfprintf -Wl,--start-group -Wl,-lm -Wl,-lprintf_flt  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega328pb -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega328pb"  
 	@echo Finished building target: $@
 	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "velo-pc_atmega328pb_ST7565.elf" "velo-pc_atmega328pb_ST7565.hex"
 	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "velo-pc_atmega328pb_ST7565.elf" "velo-pc_atmega328pb_ST7565.eep" || exit 0
