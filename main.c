@@ -58,12 +58,13 @@ dashboard_struc dashboard ;
 
 ISR(INT0_vect){
 	rtc_int_request=1;
-	toggle_pin_level(&health);
+	//toggle_pin_level(&health);
 }
 
 ISR(INT1_vect){
 	dashboard.daily_odo = dashboard.daily_odo + wheel_lenght;
 	dashboard.full_odo = dashboard.full_odo + wheel_lenght;
+	elapse_detect();
 }
 
 
@@ -86,6 +87,7 @@ int main(void)
 	adc_init();
 	rtc_int_enable(&sys_rtc ,0);
 	adc_init();
+	init_timers();
 	//rtc_set(&sys_rtc);
 	
 	u8g2_InitDisplay(&u8g2);
@@ -114,7 +116,10 @@ int main(void)
 		if (rtc_int_request != 0){
 			rtc_int_request = 0;
 			rtc_sync(&sys_rtc);
-
+			dashboard.speed = get_current_speed();
+			if(dashboard.max_speed < dashboard.speed){
+				dashboard.max_speed = dashboard.speed;
+			}
 			sprintf(time_line , "%02d:%02d:%02d", sys_rtc.hour, sys_rtc.minute, sys_rtc.second);
 			sprintf(speed, "%02d", dashboard.speed);
 			sprintf(max_speed, "%02d", dashboard.max_speed);
@@ -131,9 +136,11 @@ int main(void)
 			
 			u8g2_DrawStr(&u8g2, 5, 39, time_line);
 			u8g2_SendBuffer(&u8g2);
-			sleep_cpu();
+			//sleep_cpu();
 		}
-		//_delay_ms(100);
+		_delay_ms(100);
+		
+		printf("%u\n\r", get_current_speed());
 		//sleep_cpu();
 	}
 }
